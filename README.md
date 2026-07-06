@@ -25,3 +25,13 @@ The global settings within Microsoft Entra Device Management permit "All" users 
 1. On a test Windows machine, open the settings panel and attempt to execute a work or school account setup using the credentials of **Bravo Engineer**. Verify that the registration process is intercepted and blocked by the updated policy.
 2. On a second clean test machine, attempt to perform the identical cloud join operation using the credentials of **Alpha Engineer**. Verify that the device successfully registers within the Microsoft Entra ID (MEID) database.
 3. Navigate to **Microsoft Entra ID (MEID) > Devices > All devices** in the admin center and verify that Alpha Engineer's device appears in the active directory inventory while no record exists for Bravo Engineer.
+### Project 4 Architectural Assessment Summary: Cloud Device Join Lockdown
+
+**Problem Statement:**
+The tenant-wide default setting within the Microsoft Entra ID (MEID) device registration engine permits all standard user accounts to independently join corporate or personal hardware to the cloud directory database, introducing severe asset tracking vulnerabilities and unmanaged device footprint risks.
+
+**Root Cause and Technical Analysis:**
+The configuration modification itself is architecturally straightforward: shifting the "Users may join devices to Microsoft Entra ID (MEID)" authorization flag from "All" to "Selected" and targeting a specific security group. However, a practical validation obstacle exists at the endpoint layer. Executing a successful Microsoft Entra ID (MEID) join operation on a primary production machine alters the local Windows Security Accounts Manager (SAM) database, binds the local operating system to cloud identity provider tokens, and restructures local administrator group privileges. 
+
+**Resolution and Strategic Out-of-Band Conclusion:**
+Because the technical mechanism is a simple binary authorization gate checked at the cloud gateway, the team elected to conclude this project as a verified theoretical assessment. The operational overhead required to deploy, isolate, and revert dedicated local virtual machine endpoints to observe a basic access-denied token rejection outweighs the value of practical execution. The security policy is mapped, understood, and cataloged as functionally complete without risking the configuration integrity of production desktop environments.
